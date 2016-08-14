@@ -70,9 +70,23 @@ var app = new Vue({
             this.activedView = 0;
         },
         loadBill: function (bill) {
+
             this.bill = bill;
+
             this.activedView = 1;
+
             this.formType = 'update';
+
+        },
+        deleteBill: function (bill) {
+
+            this.bill = bill;
+
+            var confirmBox = confirm("Você tem certeza que quer deletar?");
+
+            if(confirmBox) this.bills.splice(this.bill);
+
+            this.activedView = 0;
         }
     }
 });
@@ -87,8 +101,6 @@ var app = new Vue({
 
     });
 
-app.$watch('teste', function (novoValor, velhoValor) {
-    console.log("velhoValor: "+ velhoValor +", novo valor:", + novoValor);
-});
+
 
 

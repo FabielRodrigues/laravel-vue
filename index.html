@@ -5,6 +5,18 @@
     <title>Code Contas</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <style>
+        .pago{
+            color:#fff;
+            background: green;
+            font-weight: bold;
+        }
+        .nao-pago {
+            color:#fff;
+            background: red;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body id="app">
     <section>
@@ -44,9 +56,12 @@
                             <td>{{ o.data_due }}</td>
                             <td>{{ o.name }}</td>
                             <td>{{ o.value | currency 'R$ ' 2 }}</td>
-                            <td>{{ o.done | doneLabel }}</td>
+                            <td :class="{ 'pago': o.done, 'nao-pago': !o.done }">
+                                {{ o.done | doneLabel }}
+                            </td>
                             <td>
-                                <a href="#" @click.prevent="loadBill(o)" class="btn btn-warning btn-sm">Editar</a>
+                                <a href="#" @click.prevent="loadBill(o)" class="btn btn-warning btn-sm">Editar</a> |
+                                <a href="#" @click.prevent="deleteBill(o)" class="btn btn-danger btn-sm">Deletar</a>
                             </td>
                         </tr>
                         </tbody>
@@ -56,16 +71,23 @@
 
                 <div v-if="activedView == 1">
 
-                    <form name="form">
-                        <label>Nome</label>
+                    <form name="form" @submit.prevent="submit">
+
+                        <label>Nome:</label>
                         <select v-model="bill.name" class="form-control">
-                            <option v-for="o in names">{{ o.name }}</option>
+                            <option v-for="o in names" :value="o">{{ o.name }}</option>
                         </select>
-                        <label>Vencimento</label>
+
+                        <br />
+                        <label>Vencimento:</label>
                         <input type="text" v-model="bill.data_due" class="form-control">
-                        <label>Valor</label>
+
+                        <br />
+                        <label>Valor:</label>
                         <input type="text" v-model="bill.value" class="form-control">
-                        <input type="button" v-on:click="submit" class="btn btn-success" value="Enviar" >
+
+                        <br />
+                        <input type="button" class="btn btn-success" value="Enviar" >
 
                     </form>
 
