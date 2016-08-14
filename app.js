@@ -10,6 +10,22 @@ var app = new Vue({
             {id: 1, name:"Criar conta"}
         ],
         activedView: 0,
+        formType: 'insert',
+        bill: {
+          data_due: '',
+            name:     '',
+            value: 0,
+            done: 0
+        },
+        names: [
+            { name: "Conta de luz" },
+            { name: "Conta de Água" },
+            { name: "Conta de Telefone" },
+            { name: "Supermercado" },
+            { name: "Cartão de crédito" },
+            { name: "Empréstimo" },
+            { name: "Gasolina" }
+        ],
         bills: [
             { data_due: '20/08/2016', name: 'Conta de luz', value: 70.99 , done: 1},
             { data_due: '21/08/2016', name: 'Conta de água', value: 40.99 , done: 0},
@@ -33,9 +49,46 @@ var app = new Vue({
     },
     methods: {
         showView: function (id) {
+            this.activedView = id;
+            if(id == 1) {
+                this.formType = 'insert';
+            }
+        },
+        submit: function () {
+
+            if (this.formType == 'insert') {
+                this.bills.push(this.bill);
+            }
+
+            this.bill =  {
+                data_due: '',
+                name:     '',
+                value: 0,
+                done: 0
+            };
+
+            this.activedView = 0;
+        },
+        loadBill: function (bill) {
+            this.bill = bill;
             this.activedView = 1;
+            this.formType = 'update';
         }
     }
+});
+
+    Vue.filter('doneLabel', function (value) {
+
+        if (value == 0) {
+            return "Não paga";
+        } else {
+            return "Paga";
+        }
+
+    });
+
+app.$watch('teste', function (novoValor, velhoValor) {
+    console.log("velhoValor: "+ velhoValor +", novo valor:", + novoValor);
 });
 
 
