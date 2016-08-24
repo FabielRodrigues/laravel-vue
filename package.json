@@ -10,5 +10,8 @@
   "license": "MIT",
   "dependencies": {
     "vue": "^1.0.26"
+  },
+  "devDependencies": {
+    "lite-server": "^2.2.2"
   }
 }
